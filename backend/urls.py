@@ -23,5 +23,6 @@ urlpatterns = [
     path("pictures/", views.picture_list),
     path("pictures/<int:id>", views.picture_detail),
     path("send_email/", views.send_email),
-    path("register_img/", views.register_img)
+    path("send_azure/", views.send_azure),
+
 ]

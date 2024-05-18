@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { useRef } from "react";
+import axios from "axios"
 
 function Register() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -81,10 +81,34 @@ function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showRegister, setShowRegister] = useState(false);
   const [showSelfie, setShowSelfie] = useState(false);
+  const [response, setResponse] = useState("");
+
+  // form stuff to check if azure works
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleImageUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/pictures/",
+        { name, description },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("There was an error submitting the form!", error);
     }
   };
 
@@ -123,9 +147,25 @@ function App() {
         <button onClick={handleStuff} className="button">
           Clcik
         </button>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button type="submit" className="button">
+            send to azure
+          </button>
+        </form>
       </div>
       {showRegister && <Register />}
       {showSelfie && <Selfie />}
+      {response && <p>{response}</p>}
     </div>
   );
 }
