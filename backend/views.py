@@ -4,6 +4,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 @api_view(['GET', 'POST'])
 def picture_list(request):
     if request.method == 'GET':
@@ -34,3 +38,19 @@ def picture_detail(request, id):
     elif request.method == 'DELETE':
         picture.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['POST'])
+def send_email(request):
+    message = Mail(
+        from_email='hr8patel@uwaterloo.ca',
+        to_emails='hr8patel@uwaterloo.ca',
+        subject='Sending with Twilio SendGrid is Fun',
+        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e.message)

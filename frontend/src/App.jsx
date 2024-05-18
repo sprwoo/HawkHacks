@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function Register() {
@@ -56,6 +56,20 @@ function App() {
       setSelectedImage(URL.createObjectURL(event.target.files[0]));
     }
   };
+
+  useEffect(() => {
+    fetch('http://localhost:8000/send_email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: '',
+      }),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));
+  }, []);
 
   return (
     <div className="app-container">
