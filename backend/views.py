@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from .models import Picture
 from .serializers import PictureSerializer
 from rest_framework.decorators import api_view
