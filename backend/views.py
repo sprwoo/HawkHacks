@@ -39,11 +39,11 @@ def picture_detail(request, id):
         picture.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-@api_view(['POST'])
+@api_view(['GET'])
 def send_email(request):
     message = Mail(
         from_email='hr8patel@uwaterloo.ca',
-        to_emails='hr8patel@uwaterloo.ca',
+        to_emails='t5yao@uwaterloo.ca',
         subject='Sending with Twilio SendGrid is Fun',
         html_content='<strong>and easy to do anywhere, even with Python</strong>')
     try:
