@@ -46,7 +46,7 @@ def crop(image):
     return cropped_image
 
 #img = "db/junhee.png"
-img = "imgs/yao.jpg"
-face = crop(img)
+img = "imgs/ianvandensteen.png"
+'''face = crop(img)
 cv2.imshow("img", face)
-cv2.waitKey(0)
+cv2.waitKey(0)'''

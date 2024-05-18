@@ -1,4 +1,4 @@
-from face_recognition import *
+from backend.face_recognition import *
 import os
 
 def delete_files(directory):
