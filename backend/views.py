@@ -3,7 +3,8 @@ from .serializers import PictureSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.http import JsonResponse
+from django.core.files.storage import default_storage
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -54,3 +55,19 @@ def send_email(request):
         print(response.headers)
     except Exception as e:
         print(e.message)
+        
+
+@api_view(['POST'])
+def register_img(request):
+    if request.method == 'POST':
+        image = request.FILES['image']
+        name = request.POST['name']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        
+        
+        
+
+        return JsonResponse({'message': 'Data received successfully'})
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)

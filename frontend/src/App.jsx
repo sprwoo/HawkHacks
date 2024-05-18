@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { useRef } from "react";
 
 function Register() {
   const [selectedImage, setSelectedImage] = useState(null);
+  
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const phoneRef = useRef();
 
   const handleImageUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -33,9 +38,9 @@ function Register() {
         </label>
       </div>
       <div className="form-container">
-        <input type="text" placeholder="Name" className="form-input" />
-        <input type="email" placeholder="Email" className="form-input" />
-        <input type="tel" placeholder="Phone Number" className="form-input" />
+        <input type="text" placeholder="Name" className="form-input" ref={nameRef} />
+        <input type="email" placeholder="Email" className="form-input" ref={emailRef} />
+        <input type="tel" placeholder="Phone Number" className="form-input" ref={phoneRef} />
         <button type="submit" className="submit-button">
           Submit
         </button>
@@ -84,7 +89,20 @@ function App() {
   };
 
   const handleStuff = async () => {
-    fetch("http://localhost:8000/send_email");
+    const formData = new FormData();
+    formData.append('image', selectedImage);
+    formData.append('name', nameRef.current.value);
+    formData.append('email', emailRef.current.value);
+    formData.append('phone', phoneRef.current.value);
+  
+    const response = await fetch('http://localhost:8000/register_img', {
+      method: 'POST',
+      body: formData
+    });
+  
+    if (!response.ok) {
+      console.error('Failed to send data');
+    }
   };
 
   return (
