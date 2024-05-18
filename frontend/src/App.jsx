@@ -1,47 +1,71 @@
-import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState } from "react";
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
-  const [pictures, setPictures] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`http://127.0.0.1:8000/pictures/`);
-      const data = await res.json();
-      setPictures(data);
-    };
-    fetchData();
-  }, []);
+function Register() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
 
   return (
-    <>
-      <h1>My Pictures</h1>
-      {pictures.map((picture) => (
-        <p>{picture.name}</p>
-      ))}
+    <div className="register-container">
+      <div className="upload-container">
+        <input type="file" accept="image/*" onChange={handleImageUpload} id="file-upload" className="file-upload" />
+        <label htmlFor="file-upload" className="upload-label">
+          {selectedImage ? <img src={selectedImage} alt="Selected" className="uploaded-image" /> : 'Upload your image'}
+        </label>
+      </div>
+      <div className="form-container">
+        <input type="text" placeholder="Name" className="form-input" />
+        <input type="email" placeholder="Email" className="form-input" />
+        <input type="tel" placeholder="Phone Number" className="form-input" />
+        <button type="submit" className="submit-button">Submit</button>
+      </div>
+    </div>
+  );
+}
+
+function Selfie() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  return (
+    <div className="upload-container">
+      <input type="file" accept="image/*" onChange={handleImageUpload} id="selfie-upload" className="file-upload" />
+      <label htmlFor="selfie-upload" className="upload-label">
+        {selectedImage ? <img src={selectedImage} alt="Selected" className="uploaded-image" /> : 'Upload your image'}
+      </label>
+    </div>
+  );
+}
+function App() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showSelfie, setShowSelfie] = useState(false);
+
+  const handleImageUpload = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  return (
+    <div className="app-container">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <button onClick={() => setShowRegister(prev => !prev)} className="button">Register</button>
+        <button onClick={() => setShowSelfie(prev => !prev)} className="button">Selfie</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      {showRegister && <Register />}
+      {showSelfie && <Selfie />}
+    </div>
   );
 }
 
