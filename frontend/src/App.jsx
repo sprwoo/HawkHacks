@@ -11,11 +11,19 @@ function Register() {
   };
 
   return (
-    <div className="upload-container">
-      <input type="file" accept="image/*" onChange={handleImageUpload} id="file-upload" className="file-upload" />
-      <label htmlFor="file-upload" className="upload-label">
-        {selectedImage ? <img src={selectedImage} alt="Selected" className="uploaded-image" /> : 'Upload your image'}
-      </label>
+    <div className="register-container">
+      <div className="upload-container">
+        <input type="file" accept="image/*" onChange={handleImageUpload} id="file-upload" className="file-upload" />
+        <label htmlFor="file-upload" className="upload-label">
+          {selectedImage ? <img src={selectedImage} alt="Selected" className="uploaded-image" /> : 'Upload your image'}
+        </label>
+      </div>
+      <div className="form-container">
+        <input type="text" placeholder="Name" className="form-input" />
+        <input type="email" placeholder="Email" className="form-input" />
+        <input type="tel" placeholder="Phone Number" className="form-input" />
+        <button type="submit" className="submit-button">Submit</button>
+      </div>
     </div>
   );
 }

@@ -79,3 +79,18 @@
   height: 100%;
   object-fit: cover;
 }
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
