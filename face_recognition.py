@@ -8,9 +8,8 @@ def find_faces(directory, group_photo):
 
     img = cv2.imread(group_photo)
     #img = cv2.resize(img, (0, 0), fx=0.7, fy=0.7)
-
-    cv2.imshow('img', img)
-    k = cv2.waitKey(0)
+    '''cv2.imshow('img', img)
+    k = cv2.waitKey(0)'''
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=3)
