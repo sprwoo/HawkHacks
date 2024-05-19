@@ -26,9 +26,9 @@ def group_pictures(request):
         
         
 @api_view(["GET", "PUT", "DELETE"])
-def picture_detail(request, id):
+def picture_detail(request, img):
     try:
-        picture = Picture.objects.get(pk=id)
+        picture = Picture.objects.get(group_image = "group_images/" + img)
     except Picture.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == "GET":
