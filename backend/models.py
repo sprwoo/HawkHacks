@@ -4,8 +4,9 @@ from django.db import models
 # Name and description
 class Picture(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=500)
+    email = models.CharField(max_length=500)
+    group_image = models.ImageField(upload_to='group_images/')
 
     # String representation
     def __str__(self):
-        return self.name + " " + self.description
+        return self.name + ", " + self.email

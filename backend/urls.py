@@ -23,5 +23,4 @@ urlpatterns = [
     path("pictures/", views.picture_list),
     path("pictures/<int:id>", views.picture_detail),
     path("send_email/", views.send_email),
-
 ]
