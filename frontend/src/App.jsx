@@ -41,7 +41,7 @@ function Register() {
         <input type="text" placeholder="Name" className="form-input" ref={nameRef} />
         <input type="email" placeholder="Email" className="form-input" ref={emailRef} />
         <input type="tel" placeholder="Phone Number" className="form-input" ref={phoneRef} />
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button" onClick={handleSubmit}>
           Submit
         </button>
       </div>
@@ -84,7 +84,6 @@ function App() {
   const [response, setResponse] = useState("");
 
   // form stuff to check if azure works
-  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 

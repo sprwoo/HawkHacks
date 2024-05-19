@@ -54,14 +54,3 @@ def send_email(request):
         print(response.headers)
     except Exception as e:
         print(e.message)
-
-
-@api_view(['POST']) 
-def send_azure(request):
-    data = json.loads(request.body)
-    name = data.get('name')
-    description = data.get('description')
-
-    picture = Picture(name=name, description=description)
-    picture.save()
-    return Response({"message": "Item saved successfully."})
