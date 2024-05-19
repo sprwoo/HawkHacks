@@ -156,11 +156,11 @@ function App() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-                id="selfie-upload"
+                onChange={(e) => setGroupPhoto(e.target.files[0])}
+                id="group-upload"
                 className="file-upload"
               />
-              <label htmlFor="selfie-upload" className="upload-label">
+              <label htmlFor="group-upload" className="upload-label">
                 {groupphoto ? (
                   <img
                     src={groupphoto}
