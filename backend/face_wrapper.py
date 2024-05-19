@@ -1,5 +1,7 @@
 from face_recognition import *
 import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 def delete_files(directory: str) -> None:
     '''Deletes every file within a given directory path'''
@@ -7,6 +9,22 @@ def delete_files(directory: str) -> None:
         path = os.path.join(directory, filename)
         if os.path.isfile(path):
             os.remove(path)
+
+def send_email(address: str) -> None:
+    '''Uses SendGrid to send an email to address'''
+    message = Mail(
+        from_email = 'hr8patel@uwaterloo.ca',
+        to_emails = address,
+        subject = 'Sending with Twilio SendGrid is Fun',
+        html_content = '<strong>and easy to do anywhere, even with Python</strong>')
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e.message)
 
 def compare(group_photo: str) -> None:
     '''Given the path to a group photo, it finds every face using face_recognition.py, then
@@ -38,7 +56,15 @@ def compare(group_photo: str) -> None:
         # Compare faces
         found, db_face = compare_faces(db_directory, group_face)
         if found:
-            print("Found, " + group_face + " " + db_face + "\n")
+            print("Found! " + group_face + "; " + db_face + "\n")
+            # send email
+
+            send_email()
+
+            '''img = cv2.imread(group_photo)
+            img = cv2.resize(img, (0, 0), fx=0.3, fy=0.3)
+            cv2.imshow("img", img)
+            cv2.waitKey(0)'''
 
     # Delete the temporary files
     delete_files(temp_directory)
