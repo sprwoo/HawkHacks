@@ -39,7 +39,7 @@ def picture_detail(request, id):
         picture.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-@api_view(['GET'])
+@api_view(['POST'])
 def send_email(request):
     message = Mail(
         from_email='hr8patel@uwaterloo.ca',

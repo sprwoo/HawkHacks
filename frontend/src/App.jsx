@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import axios from "axios"
+import axios from "axios";
 
 function Register() {
   const [selectedImage, setSelectedImage] = useState(null);
-  
+
   const nameRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();
@@ -38,9 +38,24 @@ function Register() {
         </label>
       </div>
       <div className="form-container">
-        <input type="text" placeholder="Name" className="form-input" ref={nameRef} />
-        <input type="email" placeholder="Email" className="form-input" ref={emailRef} />
-        <input type="tel" placeholder="Phone Number" className="form-input" ref={phoneRef} />
+        <input
+          type="text"
+          placeholder="Name"
+          className="form-input"
+          ref={nameRef}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          className="form-input"
+          ref={emailRef}
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          className="form-input"
+          ref={phoneRef}
+        />
         <button type="submit" className="submit-button" onClick={handleSubmit}>
           Submit
         </button>
@@ -85,7 +100,7 @@ function App() {
 
   // form stuff to check if azure works
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleImageUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -98,7 +113,7 @@ function App() {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/pictures/",
-        { name, description },
+        { name, email },
         {
           headers: {
             "Content-Type": "application/json",
@@ -113,18 +128,33 @@ function App() {
 
   const handleStuff = async () => {
     const formData = new FormData();
-    formData.append('image', selectedImage);
-    formData.append('name', nameRef.current.value);
-    formData.append('email', emailRef.current.value);
-    formData.append('phone', phoneRef.current.value);
-  
-    const response = await fetch('http://localhost:8000/register_img', {
-      method: 'POST',
-      body: formData
+    formData.append("image", selectedImage);
+    formData.append("name", nameRef.current.value);
+    formData.append("email", emailRef.current.value);
+    formData.append("phone", phoneRef.current.value);
+
+    const response = await fetch("http://localhost:8000/register_img", {
+      method: "POST",
+      body: formData,
     });
-  
+
     if (!response.ok) {
-      console.error('Failed to send data');
+      console.error("Failed to send data");
+    }
+  };
+
+  const handleEmail = async () => {
+    const response = await fetch("http://localhost:8000/send_email/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: "",
+    });
+    if (!response.ok) {
+      console.error("Failed to send email");
+    } else {
+      console.log("Email sent successfully");
     }
   };
 
@@ -143,6 +173,9 @@ function App() {
         >
           Selfie
         </button>
+        <button onClick={() => handleEmail()} className="button">
+          Send email
+        </button>
         <button onClick={handleStuff} className="button">
           Clcik
         </button>
@@ -154,8 +187,8 @@ function App() {
           />
           <input
             type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <button type="submit" className="button">
             send to azure
