@@ -14,6 +14,10 @@ function App() {
   const [image, setImage] = useState(null);
   const [groupphoto, setGroupPhoto] = useState(null);
 
+  const handleToggle = () => {
+    setShowRegister(!showRegister);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -91,37 +95,27 @@ function App() {
 
   return (
     <div className="app-container">
+      <h1 className="header">Yo! Send It To.me</h1>
       <div>
-        <button
-          onClick={() => setShowRegister((prev) => !prev)}
-          className="button"
-        >
-          Register
-        </button>
-        <button
-          onClick={() => setShowSelfie((prev) => !prev)}
-          className="button"
-        >
-          Selfie
-        </button>
-        <button onClick={() => handleEmail()} className="button">
-          Send email
-        </button>
-        <button onClick={handleStuff} className="button">
-          Click
-        </button>
-
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <button className="button" onClick={handleToggle}>
+          {showRegister ? "Register User" : "Group Photo"}
+          </button>
+        </div>
+        {showRegister ? (
         <form onSubmit={handleStuff}>
           <div className="input-container">
             <input
               type="text"
               value={name}
+              placeholder="Name"
               onChange={(e) => setName(e.target.value)}
               className="input-postgres"
             />
             <input
               type="text"
               value={email}
+              placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
               className="input-postgres"
             />
@@ -150,7 +144,7 @@ function App() {
             </button>
           </div>
         </form>
-      </div>
+        ) : (
       <form onSubmit={handleGroupStuff}>
             <div className="upload-container">
               <input
@@ -176,8 +170,11 @@ function App() {
               Submit
             </button>
         </form>
-      {showRegister && <Register />}
-      {response && <p>{response}</p>}
+
+      // {showRegister && <Register />}
+      // {response && <p>{response}</p>}
+    )}
+    </div>
     </div>
   );
 }
