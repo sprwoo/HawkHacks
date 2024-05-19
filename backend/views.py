@@ -20,6 +20,11 @@ def picture_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
+@api_view(['POST'])
+def group_pictures(request):
+    pass
+        
+        
 @api_view(["GET", "PUT", "DELETE"])
 def picture_detail(request, id):
     try:

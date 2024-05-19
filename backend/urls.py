@@ -25,6 +25,7 @@ urlpatterns = [
     path("pictures/", views.picture_list),
     path("pictures/<int:id>", views.picture_detail),
     path("send_email/", views.send_email),
+    path("group_pictures/", views.group_pictures),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

@@ -12,6 +12,7 @@ function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
+  const [groupphoto, setGroupPhoto] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +54,26 @@ function App() {
     }
   };
 
+  const handleGroupStuff = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("group_image", groupphoto);
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/group_pictures/",
+        formData
+      );
+      console.log(response.data);
+    } catch(error) {
+      console.error("There was an error submitting the form!", error);
+    }
+
+    if (!response.ok) {
+      console.error("Failed to send data");
+    }
+  }
+
   const handleEmail = async () => {
     const response = await fetch("http://localhost:8000/send_email/", {
       method: "POST",
@@ -86,10 +107,6 @@ function App() {
         <button onClick={() => handleEmail()} className="button">
           Send email
         </button>
-        <img
-          width={50}
-          src="http://localhost:8000/group_images/IMG_7755.jpeg"
-        />
         <button onClick={handleStuff} className="button">
           Click
         </button>
@@ -134,6 +151,31 @@ function App() {
           </div>
         </form>
       </div>
+      <form onSubmit={handleGroupStuff}>
+            <div className="upload-container">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+                id="selfie-upload"
+                className="file-upload"
+              />
+              <label htmlFor="selfie-upload" className="upload-label">
+                {groupphoto ? (
+                  <img
+                    src={groupphoto}
+                    alt="Selected"
+                    className="uploaded-image"
+                  />
+                ) : (
+                  "Upload your image"
+                )}
+              </label>
+            </div>
+            <button type="submit" className="button submit-button">
+              Submit
+            </button>
+        </form>
       {showRegister && <Register />}
       {response && <p>{response}</p>}
     </div>
