@@ -81,7 +81,7 @@ async def compare(group_photo: str) -> None:
     os.rmdir(temp_directory)
 
 # To run the async function
-def wrap(group_photo: str) -> None:
+def face_wrap(group_photo: str) -> None:
     asyncio.run(compare("img/IMG_0293"))
 
 # def compare(group_photo: str) -> None:
