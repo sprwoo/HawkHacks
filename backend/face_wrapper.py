@@ -2,7 +2,6 @@ from face_recognition import *
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
-import requests
 import aiohttp
 import asyncio
 import base64

@@ -1,13 +1,13 @@
+from face_wrapper import *
 from .models import Picture
 from .serializers import PictureSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-import json
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-from face_wrapper import wrap
+import asyncio
 
 @api_view(['GET', 'POST'])
 def picture_list(request):
@@ -23,9 +23,9 @@ def picture_list(request):
         
 @api_view(['POST'])
 def group_pictures(request):
-    print(request)
-    wrap(request)
-        
+    asyncio.run(compare(request))
+# def wrap(group_photo: str) -> None:
+#     asyncio.run(compare("img/IMG_0293"))
         
 @api_view(["GET", "PUT", "DELETE"])
 def picture_detail(request, img):
