@@ -7,6 +7,7 @@ import json
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from face_wrapper import wrap
 
 @api_view(['GET', 'POST'])
 def picture_list(request):
@@ -22,7 +23,8 @@ def picture_list(request):
         
 @api_view(['POST'])
 def group_pictures(request):
-    pass
+    print(request)
+    wrap(request)
         
         
 @api_view(["GET", "PUT", "DELETE"])

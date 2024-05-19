@@ -1,10 +1,11 @@
 from face_recognition import *
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 import requests
 import aiohttp
 import asyncio
+import base64
 
 def delete_files(directory: str) -> None:
     '''Deletes every file within a given directory path'''
@@ -20,6 +21,18 @@ def send_email(address: str, photo: str) -> None:
         to_emails = address,
         subject = 'Group photo!',
         html_content = 'Heyyyyy')
+    
+    with open(photo, 'rb') as f:
+        data = f.read()
+        encoded_file = base64.b64encode(data).decode()
+
+    attached_file = Attachment(
+        FileContent(encoded_file),
+        FileName(os.path.basename(photo)),
+        FileType('image/jpg'),  # You can change this to the appropriate file type
+        Disposition('attachment')
+    )
+    message.attachment = attached_file
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)
@@ -39,7 +52,7 @@ async def fetch_email(session, db_face):
             print(f"Failed to retrieve data: {response.status}")
             return None
 
-async def process_face(session, db_directory, temp_directory, face):
+async def process_face(session, db_directory, temp_directory, face, group_photo):
     group_face = os.path.join(temp_directory, f"{face}.jpg")
     found, db_face = compare_faces(db_directory, group_face)
     if found:
@@ -47,7 +60,7 @@ async def process_face(session, db_directory, temp_directory, face):
         db_face = db_face[13:]
         email = await fetch_email(session, db_face)
         if email:
-            send_email(email)
+            send_email(email, group_photo)
             print("Worked!")
         else:
             print("Email not found in the response.")
@@ -62,7 +75,7 @@ async def compare(group_photo: str) -> None:
     num_files = find_faces(temp_directory, group_photo)
 
     async with aiohttp.ClientSession() as session:
-        tasks = [process_face(session, db_directory, temp_directory, face) for face in range(num_files)]
+        tasks = [process_face(session, db_directory, temp_directory, face, group_photo) for face in range(num_files)]
         await asyncio.gather(*tasks)
 
     delete_files(temp_directory)
@@ -70,8 +83,7 @@ async def compare(group_photo: str) -> None:
 
 # To run the async function
 def wrap(group_photo: str) -> None:
-    group_photo = "path_to_group_photo.jpg"  # Replace with the actual path
-    asyncio.run(compare("imgs/IMG_0293.jpg"))
+    asyncio.run(compare("img/IMG_0293"))
 
 # def compare(group_photo: str) -> None:
 #     '''Given the path to a group photo, it finds every face using face_recognition.py, then
