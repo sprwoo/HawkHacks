@@ -1,4 +1,4 @@
-from backend.face_recognition import *
+from face_recognition import *
 import os
 
 def delete_files(directory: str) -> None:
@@ -15,7 +15,7 @@ def compare(group_photo: str) -> None:
     # Take group_photo from frontend
     
     # Replace this with a call to the database
-    db_directory = "db" # From the database
+    db_directory = "group_images" # From the database
 
 
     # Used to make local folder which we will use to store faces found in the image
@@ -38,10 +38,7 @@ def compare(group_photo: str) -> None:
         # Compare faces
         found, db_face = compare_faces(db_directory, group_face)
         if found:
-            print("Found!")
-            print(group_face)
-            print(db_face)
-            print("\n")
+            print("Found, " + group_face + " " + db_face + "\n")
 
     # Delete the temporary files
     delete_files(temp_directory)

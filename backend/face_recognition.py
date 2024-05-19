@@ -16,8 +16,8 @@ def find_faces(directory: str, group_photo: str) -> int:
     
     # Testing purposes
     #img = cv2.resize(img, (0, 0), fx=0.7, fy=0.7)
-    '''cv2.imshow('img', img)
-    k = cv2.waitKey(0)'''
+    '''cv2.imshow('img', image)
+    cv2.waitKey(0)'''
 
     # Grayscale then use the haar cascade algorithm
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
