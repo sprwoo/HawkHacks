@@ -21,7 +21,7 @@ def find_faces(directory: str, group_photo: str) -> int:
 
     # Grayscale then use the haar cascade algorithm
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=3)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3)
 
     # Crop out the locations of the faces found then save to directory
     num = 0

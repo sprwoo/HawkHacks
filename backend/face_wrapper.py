@@ -2,6 +2,9 @@ from face_recognition import *
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+import requests
+import aiohttp
+import asyncio
 
 def delete_files(directory: str) -> None:
     '''Deletes every file within a given directory path'''
@@ -20,9 +23,9 @@ def send_email(address: str) -> None:
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
+        #print(response.status_code)
+        #print(response.body)
+        #print(response.headers)
     except Exception as e:
         print(e.message)
 
@@ -58,8 +61,21 @@ def compare(group_photo: str) -> None:
         if found:
             print("Found! " + group_face + "; " + db_face + "\n")
             # send email
+            db_face = db_face[13:]
+            result = requests.get('http://127.0.0.1:8000/pictures/' + db_face)
 
-            send_email()
+            if result.status_code == 200:
+                data = result.json()
+                email = data.get('email')  # Replace 'email' with the actual key in your JSON response
+                
+                if email:
+                    send_email(email)
+                else:
+                    print("Email not found in the response.")
+            else:
+                print(f"Failed to retrieve data: {result.status_code}")
+            # requests.post('http://127.0.0.1:8000/send_email/')
+            
 
             '''img = cv2.imread(group_photo)
             img = cv2.resize(img, (0, 0), fx=0.3, fy=0.3)
@@ -71,4 +87,4 @@ def compare(group_photo: str) -> None:
     os.rmdir(temp_directory)
 
 # Testing
-compare("imgs/IMG_0276.jpg")
+compare("imgs/IMG_0295.jpg")

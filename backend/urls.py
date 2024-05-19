@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("pictures/", views.picture_list),
     path("pictures/<str:img>", views.picture_detail),
-    path("send_email/", views.send_email),
+    path("send_email/<str:email>", views.send_email),
     path("group_pictures/", views.group_pictures),
 ]
 
