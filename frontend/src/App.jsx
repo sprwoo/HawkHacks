@@ -88,6 +88,7 @@ function App() {
         <button onClick={() => handleEmail()} className="button">
           Send email
         </button>
+        <img width={50} src="http://localhost:8000/group_images/IMG_7755.jpeg" />
         <button onClick={handleStuff} className="button">
           Clcik
         </button>

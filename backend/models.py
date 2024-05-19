@@ -1,7 +1,5 @@
 from django.db import models
 
-# Stores information about a picture
-# Name and description
 class Picture(models.Model):
     name = models.CharField(max_length=200)
     email = models.CharField(max_length=500)
