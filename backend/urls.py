@@ -23,7 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("pictures/", views.picture_list),
-    path("pictures/<int:id>", views.picture_detail),
+    path("pictures/<str:img>", views.picture_detail),
     path("send_email/", views.send_email),
     path("group_pictures/", views.group_pictures),
 ]
