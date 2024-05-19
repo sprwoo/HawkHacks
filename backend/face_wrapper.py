@@ -1,20 +1,24 @@
 from backend.face_recognition import *
 import os
 
-def delete_files(directory):
+def delete_files(directory: str) -> None:
+    '''Deletes every file within a given directory path'''
     for filename in os.listdir(directory):
         path = os.path.join(directory, filename)
         if os.path.isfile(path):
             os.remove(path)
 
-def compare(group_photo):
+def compare(group_photo: str) -> None:
+    '''Given the path to a group photo, it finds every face using face_recognition.py, then
+    attempts to find the face in the database. If successful, it sends the group photo to
+    the associate email.'''
     # Take group_photo from frontend
     
     # Replace this with a call to the database
     db_directory = "db" # From the database
 
 
-    # Used to make local folder
+    # Used to make local folder which we will use to store faces found in the image
     temp_directory = "./tmp_faces" 
     os.mkdir(temp_directory)
 
@@ -26,6 +30,7 @@ def compare(group_photo):
         # Get file path
         group_face = temp_directory + "/" + str(face) + ".jpg"
         
+        # Debugging purposes
         '''img = cv2.imread(group_photo)
         cv2.imshow("img", img)
         cv2.waitKey(0)'''
@@ -37,7 +42,10 @@ def compare(group_photo):
             print(group_face)
             print(db_face)
             print("\n")
+
+    # Delete the temporary files
     delete_files(temp_directory)
     os.rmdir(temp_directory)
-    
+
+# Testing
 compare("imgs/IMG_0276.jpg")
